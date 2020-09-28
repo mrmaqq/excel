@@ -27,13 +27,25 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: path.require(__dirname, 'src/favicon.ico'),
-                    to: path.require(__dirname, 'dist'),
+                    from: path.resolve(__dirname, 'src/favicon.ico'),
+                    to: path.resolve(__dirname, 'dist'),
                 },
               ],
         }),
         new MiniCssExtractPlugin({
             filename: 'bundle.[hash].css'
         })
-    ]
+    ],
+    module: {
+        rules: [
+            {
+              test: /\.s[ac]ss$/i,
+              use: [
+                MiniCssExtractPlugin.loader,
+                'css-loader',
+                'sass-loader',
+              ],
+            },
+          ],
+    }
 }
