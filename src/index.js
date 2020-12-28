@@ -15,4 +15,4 @@ const excel = new Excel('#app', {
 });
 
 excel.render();
-console.log('30!');
+console.log('39!');
