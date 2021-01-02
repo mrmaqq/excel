@@ -56,8 +56,25 @@ class Dom {
     return this.$el.getBoundingClientRect();
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector));
+  }
+
   findAll(selector) {
-    return this.$el.querySelectorAll(selector);
+    const elements = this.$el.querySelectorAll(selector);
+    const instances = [];
+    elements.forEach(element => instances.push($(element)));
+    return instances;
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className);
+    return this;
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className);
+    return this;
   }
 }
 
@@ -67,8 +84,9 @@ export function $(selector) {
 
 $.create = (tagName, classes = '') => {
   const el = document.createElement(tagName);
+  const instance = $(el);
   if (classes) {
-    el.classList.add(classes);
+    instance.addClass(classes);
   }
-  return $(el);
+  return instance;
 };

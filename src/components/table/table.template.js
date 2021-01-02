@@ -5,11 +5,19 @@ const CODES = {
 
 const ALLOW_COLUMNS_COUNT = 26;
 
-function toCell(cellText, count) {
-  return `
-  <div class="cell" contenteditable="true" data-count=${count}>
-    ${cellText}
-  </div>`;
+function toCell(rowIndex) {
+  return function(cellText, count) {
+    return `
+    <div
+      class="cell"
+      contenteditable="true"
+      data-count=${count}
+      data-id=${rowIndex}:${count}
+      data-type="cell"
+    >
+      ${cellText}
+    </div>`;
+  };
 }
 
 function toColumn(columnText, count) {
@@ -64,7 +72,7 @@ export function createTable(rowsCount = 15, columnsCount = 15) {
   for (let i = 0; i < rowsCount; i++) {
     const cells = new Array(columnsCount)
         .fill('')
-        .map(toCell)
+        .map(toCell(i))
         .join('');
     rows.push(createRow(cells, i + 1));
   }

@@ -51,7 +51,7 @@ export function resizeHandler(e, $root) {
 
       $parent.style({[sizeName]: `${value}px`});
       cells.forEach(el => {
-        el.style[sizeName] = `${value}px`;
+        el.style({[sizeName]: `${value}px`});
       });
 
       $root.style({

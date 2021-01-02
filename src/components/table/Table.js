@@ -1,6 +1,9 @@
 import {ExcelComponent} from '../../core/ExcelComponent';
 import {createTable} from './table.template';
 import {resizeHandler} from './table.resize';
+import {TableSelection} from './TableSelection';
+import {isCell} from './table.functions';
+import {selectHandler} from './table.select';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -12,15 +15,21 @@ export class Table extends ExcelComponent {
     });
   }
 
-  onMousedown(e) {
-    resizeHandler(e, this.$root);
+  prepare() {
+    this.selection = new TableSelection();
   }
 
-  handleResizeColumn(e) {
-    const data = e.target.dataset;
-    const parentsWidth = e.target.parentNode.offsetWidth;
-    if (data.resizing) {
-      e.target.parentNode.style.width = `${parentsWidth + e.offsetX}px`;
+  init() {
+    super.init();
+    const firstCell = this.$root.find('[data-id="0:0"]');
+    this.selection.select(firstCell);
+  }
+
+  onMousedown(e) {
+    console.log('e', e);
+    resizeHandler(e, this.$root);
+    if (isCell(e)) {
+      selectHandler(e, this.selection, this.$root);
     }
   }
 
