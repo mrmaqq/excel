@@ -5,18 +5,32 @@ const CODES = {
 
 const ALLOW_COLUMNS_COUNT = 26;
 
-function toCell(cellText) {
-  return `<div class="cell" contenteditable="true">${cellText}</div>`;
+function toCell(cellText, count) {
+  return `
+  <div class="cell" contenteditable="true" data-count=${count}>
+    ${cellText}
+  </div>`;
 }
 
-function toColumn(columnText) {
-  return `<div class="column">${columnText}</div>`;
+function toColumn(columnText, count) {
+  return `
+    <div class="column" data-type="resize" data-count=${count}>
+      ${columnText}
+      <div class="column-resize" data-resize="column"></div>
+    </div>
+    `;
 }
 
 function createRow(rowData, rowInfo = '') {
+  const resizer = rowInfo
+    ? '<div class="row-resize" data-resize="row"></div>'
+    : '';
   return `
-    <div class="row">
-        <div class="row-info">${rowInfo}</div>
+    <div class="row" data-type="resize" data-count=${rowInfo}>
+        <div class="row-info">
+          ${rowInfo}
+          ${resizer}
+        </div>
         <div class="row-data">
             ${rowData}
         </div>
